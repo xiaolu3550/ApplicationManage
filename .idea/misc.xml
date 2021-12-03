@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/workSpace/ApplicationManage/app/src/main/res/layout/app_fragment.xml" value="0.2676923076923077" />
+        <entry key="..\:/workSpace/ApplicationManage/app/src/main/res/layout/app_list_item.xml" value="0.2676923076923077" />
+        <entry key="..\:/workSpace/ApplicationManage/app/src/main/res/layout/main_activity.xml" value="0.2676923076923077" />
+        <entry key="..\:/workSpace/ApplicationManage/commlib/src/main/res/layout/toolbar.xml" value="0.2676923076923077" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>
