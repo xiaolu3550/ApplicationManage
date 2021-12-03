@@ -1,0 +1,94 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+static def releaseTime() {
+    return new Date().format("yyyyMMdd_HHmm", TimeZone.getTimeZone("CTT"))
+}
+
+android {
+    compileSdk 30
+
+    defaultConfig {
+        applicationId "com.xiaolu.applicationmanage"
+        minSdk 21
+        targetSdk 30
+        versionCode 100
+        versionName "1.0.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+ /*   signingConfigs {
+        debug {
+            storeFile file('key/shj.jks')
+            storePassword 'shj2021'
+            keyAlias 'shj'
+            keyPassword 'shj2021'
+        }
+        release {// 自己的签名文件
+            storeFile file('key/shj.jks')
+            storePassword 'shj2021'
+            keyAlias "shj"
+            keyPassword "shj2021"
+        }
+    }*/
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "IS_PRINT", "false"
+            versionNameSuffix "-debug"
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+       //     signingConfig signingConfigs.debug
+
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "gxls_debug_v${versionName}_${releaseTime()}.apk"
+                }
+            }
+        }
+
+        release {
+            buildConfigField "boolean", "IS_PRINT", "true"
+            //混淆
+            minifyEnabled true
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //签名
+        //    signingConfig signingConfigs.release
+
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "gxls_v${versionName}_${versionCode}_${releaseTime()}.apk"
+                }
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    viewBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation project(path: ':commlib')
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+}

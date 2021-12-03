@@ -1,0 +1,19 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        // maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' } // 阿里镜像仓库(优先)
+        maven { url 'https://maven.aliyun.com/repository/public' } // 阿里镜像仓库(优先)
+        maven { url 'https://maven.aliyun.com/repository/google' } // 阿里镜像仓库(优先)
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+       // maven { url "https://maven.google.com" }
+        maven { url 'https://repo1.maven.org/maven2/' }
+        jcenter()//is going to shut down soon
+        flatDir {
+            dirs 'app/libs'
+        }
+    }
+}
+rootProject.name = "ApplicationManage"
+include ':app', ':commlib'

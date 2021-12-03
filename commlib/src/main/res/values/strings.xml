@@ -1,0 +1,13 @@
+<resources>
+    <string name="permission_tip">提示</string>
+    <string name="permission_remind_open_XX_permission">为保证应用正常进行，请开启%1$s</string>
+    <string name="permission_app_launch_no_permission1">缺少权限，请同意权限以保证应用正常运行</string>
+    <string name="permission_app_launch_no_permission2">缺少权限，请前往授权再进入应用</string>
+    <string name="permission_cancel">取消</string>
+    <string name="permission_go_to_setting">去设置</string>
+
+    <string name="permission_name_external_storage">存储权限</string>
+    <string name="permission_name_camera">相机权限</string>
+    <string name="permission_name_phone_state">读取手机权限</string>
+    <string name="permission_name_record_audio">录音权限</string>
+</resources>
