@@ -11,8 +11,8 @@ class AppListAdapter(layoutResId: Int) :
         holder.setText(R.id.tv_appName, item.appName)
             .setText(R.id.tv_packageName, "包名: ${item.packageName}")
             .setText(R.id.tv_version, "版本号: ${item.version}")
-            .setText(R.id.tv_packageName, "签名/MD5: ${item.md5}")
-            .setText(R.id.tv_packageName, "SHA1: ${item.sha1}")
+            .setText(R.id.tv_MD5, "签名/MD5: ${item.md5}")
+            .setText(R.id.tv_SHA1, "SHA1: ${item.sha1}")
             .setImageDrawable(R.id.iv_icon, item.icon)
     }
 }
