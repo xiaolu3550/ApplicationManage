@@ -16,7 +16,7 @@ class LoadAppUtil {
         }
     }
 
-    fun load(type: String = "", loadListener: LoadListener) {
+    fun load(type: String, loadListener: LoadListener) {
         Observable.create(ObservableOnSubscribe<MutableList<AppInfoBean>> { emitter ->
             emitter.onNext(AppUtil.queryFilterAppInfo(App.getInstance(), type))
         }).subscribeOn(Schedulers.io())

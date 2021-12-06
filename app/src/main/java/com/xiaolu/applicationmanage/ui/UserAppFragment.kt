@@ -16,15 +16,15 @@ import com.tamsiree.rxkit.RxClipboardTool
 import com.tamsiree.rxkit.RxImageTool
 import com.xiaolu.applicationmanage.R
 import com.xiaolu.applicationmanage.bean.AppInfoBean
-import com.xiaolu.applicationmanage.databinding.AppFragmentBinding
+import com.xiaolu.applicationmanage.databinding.UserAppFragmentBinding
 import com.xiaolu.applicationmanage.ui.adapter.AppListAdapter
 import com.xiaolu.applicationmanage.util.AppUtil
 import com.xiaolu.applicationmanage.util.LoadAppUtil
 
-class UserAppFragment : BaseMvpFragment<AppFragmentBinding, IView, IPresenter<IView>>() {
+class UserAppFragment : BaseMvpFragment<UserAppFragmentBinding, IView, IPresenter<IView>>() {
     companion object {
-        fun newInstance(): AllAppFragment {
-            return AllAppFragment()
+        fun newInstance(): UserAppFragment {
+            return UserAppFragment()
         }
     }
 
@@ -35,8 +35,8 @@ class UserAppFragment : BaseMvpFragment<AppFragmentBinding, IView, IPresenter<IV
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
         parent: ViewGroup?
-    ): AppFragmentBinding {
-        return AppFragmentBinding.inflate(layoutInflater)
+    ): UserAppFragmentBinding {
+        return UserAppFragmentBinding.inflate(layoutInflater)
     }
 
     override fun setToolbarLayout(): Int {
@@ -76,17 +76,17 @@ class UserAppFragment : BaseMvpFragment<AppFragmentBinding, IView, IPresenter<IV
         binding.sm.autoRefresh()
         LoadAppUtil.init()
             .load("USER", object : LoadAppUtil.LoadListener {
-            override fun success(bean: MutableList<AppInfoBean>) {
-                binding.rv.adapter = appListAdapter
-                appListAdapter?.data = bean
-                binding.sm.finishRefresh(true)
-            }
+                override fun success(bean: MutableList<AppInfoBean>) {
+                    binding.rv.adapter = appListAdapter
+                    appListAdapter?.data = bean
+                    binding.sm.finishRefresh(true)
+                }
 
-            override fun error(msg: String?) {
-                binding.sm.finishRefresh(false)
-            }
+                override fun error(msg: String?) {
+                    binding.sm.finishRefresh(false)
+                }
 
-        })
+            })
     }
 
     override fun setListener() {
@@ -103,6 +103,7 @@ class UserAppFragment : BaseMvpFragment<AppFragmentBinding, IView, IPresenter<IV
             initDate()
         }
     }
+
     override fun createPresenter(): IPresenter<IView>? {
         return null
     }

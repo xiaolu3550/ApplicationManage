@@ -38,23 +38,27 @@ object AppUtil {
             if (type.equals("USER")) {
                 if ((app.flags and ApplicationInfo.FLAG_SYSTEM) != 0) {
                     continue
+                } else{
+                    appInfoBean.packageName = app.packageName
+                    appInfoBean.md5 = getAppSign(context, app.packageName, "MD5")
+                    appInfoBean.sha1 = getAppSign(context, app.packageName, "SHA1")
+                    appInfoBean.appName = app.loadLabel(pm).toString()
+                    appInfoBean.icon = app.loadIcon(pm)
+                    appInfoBean.version = pm.getPackageArchiveInfo(app.sourceDir, 0)?.versionName
                 }
-                appInfoBean.packageName = app.packageName
-                appInfoBean.md5 = getAppSign(context, app.packageName, "MD5")
-                appInfoBean.sha1 = getAppSign(context, app.packageName, "SHA1")
-                appInfoBean.appName = app.loadLabel(pm).toString()
-                appInfoBean.icon = app.loadIcon(pm)
-                appInfoBean.version = pm.getPackageArchiveInfo(app.sourceDir, 0)?.versionName
+
             } else if (type.equals("SYS")) {
                 if ((app.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
                     continue
+                } else {
+                    appInfoBean.packageName = app.packageName
+                    appInfoBean.md5 = getAppSign(context, app.packageName, "MD5")
+                    appInfoBean.sha1 = getAppSign(context, app.packageName, "SHA1")
+                    appInfoBean.appName = app.loadLabel(pm).toString()
+                    appInfoBean.icon = app.loadIcon(pm)
+                    appInfoBean.version = pm.getPackageArchiveInfo(app.sourceDir, 0)?.versionName
                 }
-                appInfoBean.packageName = app.packageName
-                appInfoBean.md5 = getAppSign(context, app.packageName, "MD5")
-                appInfoBean.sha1 = getAppSign(context, app.packageName, "SHA1")
-                appInfoBean.appName = app.loadLabel(pm).toString()
-                appInfoBean.icon = app.loadIcon(pm)
-                appInfoBean.version = pm.getPackageArchiveInfo(app.sourceDir, 0)?.versionName
+
             } else {
                 appInfoBean.packageName = app.packageName
                 appInfoBean.md5 = getAppSign(context, app.packageName, "MD5")

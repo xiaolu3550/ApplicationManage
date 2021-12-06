@@ -16,15 +16,15 @@ import com.tamsiree.rxkit.RxClipboardTool
 import com.tamsiree.rxkit.RxImageTool
 import com.xiaolu.applicationmanage.R
 import com.xiaolu.applicationmanage.bean.AppInfoBean
-import com.xiaolu.applicationmanage.databinding.AppFragmentBinding
+import com.xiaolu.applicationmanage.databinding.SystemAppFragmentBinding
 import com.xiaolu.applicationmanage.ui.adapter.AppListAdapter
 import com.xiaolu.applicationmanage.util.AppUtil
 import com.xiaolu.applicationmanage.util.LoadAppUtil
 
-class SystemAppFragment : BaseMvpFragment<AppFragmentBinding, IView, IPresenter<IView>>() {
+class SystemAppFragment : BaseMvpFragment<SystemAppFragmentBinding, IView, IPresenter<IView>>() {
     companion object {
-        fun newInstance(): AllAppFragment {
-            return AllAppFragment()
+        fun newInstance(): SystemAppFragment {
+            return SystemAppFragment()
         }
     }
 
@@ -35,8 +35,8 @@ class SystemAppFragment : BaseMvpFragment<AppFragmentBinding, IView, IPresenter<
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
         parent: ViewGroup?
-    ): AppFragmentBinding {
-        return AppFragmentBinding.inflate(layoutInflater)
+    ): SystemAppFragmentBinding {
+        return SystemAppFragmentBinding.inflate(layoutInflater)
     }
 
     override fun setToolbarLayout(): Int {
@@ -76,17 +76,17 @@ class SystemAppFragment : BaseMvpFragment<AppFragmentBinding, IView, IPresenter<
         binding.sm.autoRefresh()
         LoadAppUtil.init()
             .load("SYS", object : LoadAppUtil.LoadListener {
-            override fun success(bean: MutableList<AppInfoBean>) {
-                binding.rv.adapter = appListAdapter
-                appListAdapter?.data = bean
-                binding.sm.finishRefresh(true)
-            }
+                override fun success(bean: MutableList<AppInfoBean>) {
+                    binding.rv.adapter = appListAdapter
+                    appListAdapter?.data = bean
+                    binding.sm.finishRefresh(true)
+                }
 
-            override fun error(msg: String?) {
-                binding.sm.finishRefresh(false)
-            }
+                override fun error(msg: String?) {
+                    binding.sm.finishRefresh(false)
+                }
 
-        })
+            })
     }
 
     override fun setListener() {
