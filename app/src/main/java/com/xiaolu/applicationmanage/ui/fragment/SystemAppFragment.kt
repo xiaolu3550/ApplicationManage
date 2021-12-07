@@ -1,4 +1,4 @@
-package com.xiaolu.applicationmanage.ui
+package com.xiaolu.applicationmanage.ui.fragment
 
 import android.app.Activity
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.benlian.commlib.base.BaseMvpFragment
+import com.benlian.commlib.eventbean.MessageEvent
 import com.benlian.commlib.mvpbase.IPresenter
 import com.benlian.commlib.mvpbase.IView
 import com.benlian.commlib.weigit.RecycleViewDivider
@@ -16,6 +17,7 @@ import com.tamsiree.rxkit.RxClipboardTool
 import com.tamsiree.rxkit.RxImageTool
 import com.xiaolu.applicationmanage.R
 import com.xiaolu.applicationmanage.bean.AppInfoBean
+import com.xiaolu.applicationmanage.bean.SearchBean
 import com.xiaolu.applicationmanage.databinding.SystemAppFragmentBinding
 import com.xiaolu.applicationmanage.ui.adapter.AppListAdapter
 import com.xiaolu.applicationmanage.util.AppUtil
@@ -29,6 +31,7 @@ class SystemAppFragment : BaseMvpFragment<SystemAppFragmentBinding, IView, IPres
     }
 
     var appListAdapter: AppListAdapter? = null
+    var position = 1
     override fun initImmersionBar() {
     }
 
@@ -42,7 +45,22 @@ class SystemAppFragment : BaseMvpFragment<SystemAppFragmentBinding, IView, IPres
     override fun setToolbarLayout(): Int {
         return 0
     }
+    override fun isRegisterEventBus(): Boolean {
+        return true
+    }
 
+    override fun receiveEvent(event: MessageEvent<*>?) {
+        when (event!!.code) {
+            1000 -> {
+                val searchBean = event.data as SearchBean
+                if (position == searchBean.position) {
+                    if (appListAdapter != null) {
+                        appListAdapter!!.filter.filter(searchBean.searchName)
+                    }
+                }
+            }
+        }
+    }
     override fun initParams(bundle: Bundle?) {
     }
 
@@ -67,8 +85,6 @@ class SystemAppFragment : BaseMvpFragment<SystemAppFragmentBinding, IView, IPres
         binding.sm.setRefreshHeader(classicsHeader)
             .setRefreshFooter(ClassicsFooter(mActivity))
             .setEnableLoadMore(false)
-        appListAdapter = AppListAdapter(R.layout.app_list_item)
-        appListAdapter?.addChildClickViewIds(R.id.tv_copy)
         initDate()
     }
 
@@ -77,8 +93,9 @@ class SystemAppFragment : BaseMvpFragment<SystemAppFragmentBinding, IView, IPres
         LoadAppUtil.init()
             .load("SYS", object : LoadAppUtil.LoadListener {
                 override fun success(bean: MutableList<AppInfoBean>) {
+                    appListAdapter = AppListAdapter(R.layout.app_list_item,bean)
+                    appListAdapter?.addChildClickViewIds(R.id.tv_copy)
                     binding.rv.adapter = appListAdapter
-                    appListAdapter?.data = bean
                     binding.sm.finishRefresh(true)
                 }
 
