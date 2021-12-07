@@ -31,7 +31,7 @@ class AppListAdapter(layoutResId: Int, mData: MutableList<AppInfoBean>) :
                     mData!!.forEach {
                         val appName = it.appName
                         val packageName = it.packageName
-                        if (appName.contains(constraint) || packageName.contains(constraint)) {
+                        if (appName.contains(constraint) || packageName.equals(constraint)) {
                             mOriginalValues!!.clear()
                             mOriginalValues!!.add(it)
                         }

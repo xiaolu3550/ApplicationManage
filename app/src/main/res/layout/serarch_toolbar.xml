@@ -57,7 +57,7 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:imeOptions="actionSearch"
-            android:hint="请输入应用名称"
+            android:hint="请输入应用名称/包名"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_16" />
 
