@@ -15,8 +15,8 @@
         android:theme="@style/Theme.ApplicationManage"
         tools:replace="android:theme,android:icon">
         <activity
-            android:name=".ui.MainActivity"
-            >
+            android:name=".ui.WelcomeActivity"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +24,7 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".ui.MainActivity" />
     </application>
 
 </manifest>
