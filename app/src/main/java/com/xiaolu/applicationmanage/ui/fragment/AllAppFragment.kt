@@ -99,6 +99,15 @@ class AllAppFragment : BaseMvpFragment<AppFragmentBinding, IView, IPresenter<IVi
                     appListAdapter = AppListAdapter(R.layout.app_list_item, bean)
                     appListAdapter?.addChildClickViewIds(R.id.tv_copy)
                     binding.rv.adapter = appListAdapter
+                    appListAdapter?.setOnItemChildClickListener { adapter, view, position ->
+                        val item = appListAdapter?.getItem(position)
+                        RxClipboardTool.copyText(
+                            mActivity,
+                            AppUtil.copyText(item?.appName, item?.packageName, item?.md5, item?.sha1)
+
+                        )
+                        showCenterToast("应用信息复制成功")
+                    }
                     binding.sm.finishRefresh(true)
                 }
 
@@ -110,15 +119,7 @@ class AllAppFragment : BaseMvpFragment<AppFragmentBinding, IView, IPresenter<IVi
     }
 
     override fun setListener() {
-        appListAdapter?.setOnItemChildClickListener { adapter, view, position ->
-            val item = appListAdapter?.getItem(position)
-            RxClipboardTool.copyText(
-                mActivity,
-                AppUtil.copyText(item?.appName, item?.packageName, item?.md5, item?.sha1)
 
-            )
-            showCenterToast("应用信息复制成功")
-        }
 
         binding.sm.setOnRefreshListener {
             initDate()
