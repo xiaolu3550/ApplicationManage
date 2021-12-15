@@ -2,10 +2,10 @@ package com.xiaolu.applicationmanage.util
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.content.pm.Signature
+import com.tamsiree.rxkit.RxAppTool
 import com.xiaolu.applicationmanage.bean.AppInfoBean
 import java.io.ByteArrayInputStream
 import java.security.MessageDigest
@@ -36,41 +36,45 @@ object AppUtil {
         for (app in appInfos) {
             var appInfoBean = AppInfoBean()
             if (type.equals("USER")) {
-                if ((app.flags and ApplicationInfo.FLAG_SYSTEM) != 0) {
-                    continue
-                } else{
-                    appInfoBean.packageName = app.packageName
-                    appInfoBean.md5 = getAppSign(context, app.packageName, "MD5")
-                    appInfoBean.sha1 = getAppSign(context, app.packageName, "SHA1")
-                    appInfoBean.appName = app.loadLabel(pm).toString()
-                    appInfoBean.icon = app.loadIcon(pm)
-                    appInfoBean.version = pm.getPackageArchiveInfo(app.sourceDir, 0)?.versionName
-                }
+                val systemApp = RxAppTool.isSystemApp(context, app.packageName)
+                if (isSysApp(systemApp, appInfoBean, app.packageName, context)) continue
 
             } else if (type.equals("SYS")) {
-                if ((app.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
-                    continue
-                } else {
-                    appInfoBean.packageName = app.packageName
-                    appInfoBean.md5 = getAppSign(context, app.packageName, "MD5")
-                    appInfoBean.sha1 = getAppSign(context, app.packageName, "SHA1")
-                    appInfoBean.appName = app.loadLabel(pm).toString()
-                    appInfoBean.icon = app.loadIcon(pm)
-                    appInfoBean.version = pm.getPackageArchiveInfo(app.sourceDir, 0)?.versionName
-                }
-
+                val systemApp = RxAppTool.isSystemApp(context, app.packageName)
+                if (isSysApp(!systemApp, appInfoBean, app.packageName, context)) continue
             } else {
-                appInfoBean.packageName = app.packageName
-                appInfoBean.md5 = getAppSign(context, app.packageName, "MD5")
-                appInfoBean.sha1 = getAppSign(context, app.packageName, "SHA1")
-                appInfoBean.appName = app.loadLabel(pm).toString()
-                appInfoBean.icon = app.loadIcon(pm)
-                appInfoBean.version = pm.getPackageArchiveInfo(app.sourceDir, 0)?.versionName
+                addBean(appInfoBean, app.packageName, context)
             }
             appInfoListBean.add(appInfoBean)
         }
         return appInfoListBean
-        // mApplicationInfos = applicationInfos
+    }
+
+    private fun isSysApp(
+        systemApp: Boolean,
+        appInfoBean: AppInfoBean,
+        packageName: String,
+        context: Context,
+    ): Boolean {
+        if (!systemApp) {
+            addBean(appInfoBean, packageName, context)
+        } else {
+            return true
+        }
+        return false
+    }
+
+    private fun addBean(
+        appInfoBean: AppInfoBean,
+        packageName: String,
+        context: Context
+    ) {
+        appInfoBean.packageName = packageName
+        appInfoBean.md5 = getAppSign(context, packageName, "MD5")
+        appInfoBean.sha1 = getAppSign(context, packageName, "SHA1")
+        appInfoBean.appName = RxAppTool.getAppName(context, packageName)
+        appInfoBean.icon = RxAppTool.getAppIcon(context, packageName)
+        appInfoBean.version = RxAppTool.getAppVersionName(context, packageName)
     }
 
     /**
